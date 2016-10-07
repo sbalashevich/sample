@@ -1,0 +1,8 @@
+---
+applications:
+- name: mydemoapp
+  host: mydemoapp
+  memory: 512mb
+  instances: 1
+  path: target/sample-0.0.1-SNAPSHOT.jar
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
