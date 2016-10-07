@@ -11,7 +11,7 @@ public class SampleApplication {
 
 	@RequestMapping("/version")
 	public String getVersion(){
-		return "v2.1";
+		return "v2.2";
 	}
 
 	public static void main(String[] args) {
