@@ -1,8 +1,7 @@
 ---
 applications:
-- name: mydemoapp
-  host: mydemoapp
-  domain: hcf.allomov.pocket-avenue.com
+- name: hylloworld
+  host: demo
   memory: 512mb
   instances: 1
   path: target/sample-0.0.1-SNAPSHOT.jar
