@@ -12,8 +12,5 @@ inputs:
 - name: current-app-info
 - name: app-manifest-output
 
-outputs:
-- name: app-manifest-output
-
 run:
   path: my-application/ci/tasks/app-manifest-prep
