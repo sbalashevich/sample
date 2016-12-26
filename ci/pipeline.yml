@@ -34,7 +34,7 @@ jobs:
   plan:
   - get: my-application
     trigger: true
-  - task: run-unit-tests
+  - task: run-unit-test
     file: my-application/ci/tasks/unit-tests.yml
 
 - name: deploy-app
@@ -42,6 +42,7 @@ jobs:
   public: true
   plan:
   - get: my-application
+  - get: app-compiled-output
     trigger: true
     passed:
       - unit-tests
@@ -58,10 +59,12 @@ jobs:
     file: my-application/ci/tasks/app-manifest-prep.yml
     params:
       CF_APP_SUFFIX: {{cf-app-suffix}}
+  - task: run-unit-test
+    file: my-application/ci/tasks/unit-tests.yml
   - put: CF
     params:
       manifest: app-manifest-output/manifest.yml
-      path: my-application/target/sample-0.0.1-SNAPSHOT.jar
+      path: app-compiled-output/sample-0.0.1-SNAPSHOT.jar
 
 - name: contract-tests
   serial: true

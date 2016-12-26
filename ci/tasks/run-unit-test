@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -xe
+
+pwd
+env
+
+mvn -f ./my-application/pom.xml package
+mv ./my-application/target/*.jar ./app-compiled-output/

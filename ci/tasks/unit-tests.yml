@@ -10,6 +10,8 @@ image_resource:
 inputs:
 - name: my-application
 
+outputs:
+- name: app-compiled-output
+
 run:
-  path: mvn
-  args: ["-f", "my-application/pom.xml", "package"]
+  path: my-application/ci/tasks/run-unit-test
