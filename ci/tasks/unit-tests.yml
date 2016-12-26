@@ -11,7 +11,7 @@ inputs:
 - name: my-application
 
 outputs:
-- name: app-compiled-output
+- name: app-manifest-output
 
 run:
   path: my-application/ci/tasks/run-unit-test

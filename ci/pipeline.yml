@@ -54,6 +54,8 @@ jobs:
       CF_USER: {{deploy-username}}
       CF_PWD: {{deploy-password}}
       CF_SPACE: {{cf-space}}
+  - task: run-unit-test
+    file: my-application/ci/tasks/unit-tests.yml
   - task: prepare-app-manifest
     file: my-application/ci/tasks/app-manifest-prep.yml
     params:
