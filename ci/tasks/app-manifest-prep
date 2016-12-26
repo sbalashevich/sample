@@ -7,3 +7,7 @@ cat ./current-app-info/current-app.txt
 sed "s/APPNAME/$(cat ./current-app-info/next-app.txt)-$CF_APP_SUFFIX/" ./my-application/manifests/manifest.yml > ./app-manifest-output/manifest.yml
 
 cat ./app-manifest-output/manifest.yml
+
+mvn -f ./my-application/pom.xml package
+
+mv ./my-application/target/*.jar ./app-manifest-output/

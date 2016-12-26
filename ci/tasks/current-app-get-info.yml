@@ -9,7 +9,6 @@ image_resource:
 
 inputs:
 - name: my-application
-- name: app-compiled-output
 
 outputs:
 - name: current-app-info

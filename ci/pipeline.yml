@@ -42,7 +42,6 @@ jobs:
   public: true
   plan:
   - get: my-application
-  - get: app-compiled-output
     trigger: true
     passed:
       - unit-tests

@@ -9,12 +9,10 @@ image_resource:
 
 inputs:
 - name: my-application
-- name: app-compiled-output
 - name: current-app-info
 
 outputs:
 - name: app-manifest-output
-- name: app-compiled-output
 
 run:
   path: my-application/ci/tasks/app-manifest-prep
