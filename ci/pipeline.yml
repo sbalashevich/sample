@@ -40,7 +40,7 @@ jobs:
   - get: concourse-pipeline-samples
     trigger: true
   - task: run-unit-tests
-    file: blue-green-deployment/concourse-pipeline-samples/ci/tasks/unit-tests.yml
+    file: concourse-pipeline-samples/ci/tasks/unit-tests.yml
 
 - name: deploy-app
   serial: true
