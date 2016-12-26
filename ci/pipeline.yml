@@ -1,7 +1,6 @@
 groups:
 - name: main
   jobs:
-  - list-files
   - unit-tests
   - deploy-app
   - contract-tests
@@ -68,6 +67,7 @@ jobs:
   serial: true
   public: true
   plan:
+  - get: my-application-contract-tests
   - get: my-application
     trigger: true
     passed:
