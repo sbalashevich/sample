@@ -4,14 +4,14 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: "maven"
+    repository: "bankmonitor/spring-boot"
     tag: "latest"
 
 inputs:
 - name: my-application
 
 outputs:
-- name: app-manifest-output
+- name: app-compiled-output
 
 run:
   path: my-application/ci/tasks/run-unit-test

@@ -10,6 +10,9 @@ image_resource:
 inputs:
 - name: my-application
 - name: current-app-info
+- name: app-compiled-output
+
+outputs:
 - name: app-manifest-output
 
 run:
