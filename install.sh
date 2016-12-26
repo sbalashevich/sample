@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-fly -t local set-pipeline -c ci/pipeline.yml -p blue-green-pipeline -l ci/credentials.yml
+fly -t tutorial set-pipeline -c ci/pipeline.yml -p blue-green-deployment -l ci/credentials.yml

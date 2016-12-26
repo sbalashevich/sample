@@ -4,7 +4,7 @@ platform: linux
 image_resource:
   type: docker-image
   source:
-    repository: pivotalservices/docker-concourse-cf-tools
+    repository: "ubuntu"
     tag: "latest"
 
 inputs:
@@ -15,4 +15,4 @@ outputs:
 - name: app-manifest-output
 
 run:
-  path: concourse-pipeline-samples/blue-green-app-deployment/ci/tasks/app-manifest-prep
+  path: my-application/ci/tasks/app-manifest-prep

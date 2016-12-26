@@ -1,0 +1,6 @@
+---
+applications:
+- name: APPNAME
+  memory: 256m
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git
+  instances: 1

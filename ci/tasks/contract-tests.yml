@@ -8,8 +8,10 @@ image_resource:
     tag: "latest"
 
 inputs:
-- name: my-application
+- name: my-application-contract-tests
+- name: current-app-info
 
 run:
   path: mvn
-  args: ["-f", "my-application/pom.xml", "package"]
+  args: ["-f", "my-application-contract-tests/pom.xml", "test"]
+

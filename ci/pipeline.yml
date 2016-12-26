@@ -4,117 +4,113 @@ groups:
   - list-files
   - unit-tests
   - deploy-app
-  - load-tests
+  - contract-tests
   - promote-new-version
 
 resources:
-- name: concourse-pipeline-samples
+- name: my-application
   type: git
   source:
     branch: master
     uri: https://github.com/sbalashevich/sample
-- name: PWS
+- name: my-application-contract-tests
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/sbalashevich/sample-contracts
+- name: CF
   type: cf
   source:
-    api: {{pws-api}}
-    organization: {{pws-organization}}
+    api: {{cf-api}}
+    organization: {{cf-organization}}
     username: {{deploy-username}}
     password: {{deploy-password}}
     skip_cert_check: true
-    space: {{pws-space}}
+    space: {{cf-space}}
 
 jobs:
-- name: list-files
-  serial: true
-  public: true
-  plan:
-  - get: concourse-pipeline-samples
-    trigger: true
-  - task: list-files
-    file: run.yml
-
 - name: unit-tests
   serial: true
   public: true
   plan:
-  - get: concourse-pipeline-samples
+  - get: my-application
     trigger: true
   - task: run-unit-tests
-    file: concourse-pipeline-samples/ci/tasks/unit-tests.yml
+    file: my-application/ci/tasks/unit-tests.yml
 
 - name: deploy-app
   serial: true
   public: true
   plan:
-  - get: concourse-pipeline-samples
+  - get: my-application
     trigger: true
     passed:
       - unit-tests
   - task: get-current-app-color
-    file: concourse-pipeline-samples/ci/tasks/current-app-get-info.yml
+    file: my-application/ci/tasks/current-app-get-info.yml
     params:
-      PWS_APP_SUFFIX: {{pws-app-suffix}}
-      PWS_API: {{pws-api}}
-      PWS_ORG: {{pws-organization}}
-      PWS_USER: {{deploy-username}}
-      PWS_PWD: {{deploy-password}}
-      PWS_SPACE: {{pws-space}}
+      CF_APP_SUFFIX: {{cf-app-suffix}}
+      CF_API: {{cf-api}}
+      CF_ORG: {{cf-organization}}
+      CF_USER: {{deploy-username}}
+      CF_PWD: {{deploy-password}}
+      CF_SPACE: {{cf-space}}
   - task: prepare-app-manifest
-    file: concourse-pipeline-samples/ci/tasks/app-manifest-prep.yml
+    file: my-application/ci/tasks/app-manifest-prep.yml
     params:
-      PWS_APP_SUFFIX: {{pws-app-suffix}}
-  - put: PWS
+      CF_APP_SUFFIX: {{cf-app-suffix}}
+  - put: CF
     params:
       manifest: app-manifest-output/manifest.yml
-      path: concourse-pipeline-samples/
+      path: my-application/
 
-- name: load-tests
+- name: contract-tests
   serial: true
   public: true
   plan:
-  - get: concourse-pipeline-samples
+  - get: my-application
     trigger: true
     passed:
       - deploy-app
   - task: get-current-app-color
-    file: concourse-pipeline-samples/ci/tasks/current-app-get-info.yml
+    file: my-application/ci/tasks/current-app-get-info.yml
     params:
-      PWS_APP_SUFFIX: {{pws-app-suffix}}
-      PWS_API: {{pws-api}}
-      PWS_ORG: {{pws-organization}}
-      PWS_USER: {{deploy-username}}
-      PWS_PWD: {{deploy-password}}
-      PWS_SPACE: {{pws-space}}
-  - task: run-load-tests
-    file: concourse-pipeline-samples/ci/tasks/load-tests.yml
+      CF_APP_SUFFIX: {{cf-app-suffix}}
+      CF_API: {{cf-api}}
+      CF_ORG: {{cf-organization}}
+      CF_USER: {{deploy-username}}
+      CF_PWD: {{deploy-password}}
+      CF_SPACE: {{cf-space}}
+  - task: run-contract-tests
+    file: my-application/ci/tasks/contract-tests.yml
     params:
-      PWS_APP_SUFFIX: {{pws-app-suffix}}
-      PWS_APP_DOMAIN: {{pws-app-domain}}
+      CF_APP_SUFFIX: {{cf-app-suffix}}
+      CF_APP_DOMAIN: {{cf-app-domain}}
 
 - name: promote-new-version
   serial: true
   public: true
   plan:
-  - get: concourse-pipeline-samples
+  - get: my-application
     trigger: true
     passed:
-      - load-tests
+      - contract-tests
   - task: get-current-app-color
-    file: concourse-pipeline-samples/ci/tasks/current-app-get-info.yml
+    file: my-application/ci/tasks/current-app-get-info.yml
     params:
-      PWS_APP_SUFFIX: {{pws-app-suffix}}
-      PWS_API: {{pws-api}}
-      PWS_ORG: {{pws-organization}}
-      PWS_USER: {{deploy-username}}
-      PWS_PWD: {{deploy-password}}
-      PWS_SPACE: {{pws-space}}
+      CF_APP_SUFFIX: {{cf-app-suffix}}
+      CF_API: {{cf-api}}
+      CF_ORG: {{cf-organization}}
+      CF_USER: {{deploy-username}}
+      CF_PWD: {{deploy-password}}
+      CF_SPACE: {{cf-space}}
   - task: switch-app-routes
-    file: concourse-pipeline-samples/ci/tasks/update-routes.yml
+    file: my-application/ci/tasks/update-routes.yml
     params:
-      PWS_APP_SUFFIX: {{pws-app-suffix}}
-      PWS_APP_DOMAIN: {{pws-app-domain}}
-      PWS_API: {{pws-api}}
-      PWS_ORG: {{pws-organization}}
-      PWS_USER: {{deploy-username}}
-      PWS_PWD: {{deploy-password}}
-      PWS_SPACE: {{pws-space}}
+      CF_APP_SUFFIX: {{cf-app-suffix}}
+      CF_APP_DOMAIN: {{cf-app-domain}}
+      CF_API: {{cf-api}}
+      CF_ORG: {{cf-organization}}
+      CF_USER: {{deploy-username}}
+      CF_PWD: {{deploy-password}}
+      CF_SPACE: {{cf-space}}
