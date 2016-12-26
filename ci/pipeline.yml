@@ -61,7 +61,7 @@ jobs:
   - put: CF
     params:
       manifest: app-manifest-output/manifest.yml
-      path: my-application/
+      path: my-application/target/sample-0.0.1-SNAPSHOT.jar
 
 - name: contract-tests
   serial: true
