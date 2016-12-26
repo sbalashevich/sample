@@ -1,0 +1,15 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: docker-java
+    tag: "latest"
+
+inputs:
+- name: concourse-pipeline-samples
+
+run:
+  path: mvn
+  args: ["-f", "concourse-pipeline-samples/pom.xml", "-DskipTests=false", "package"]
